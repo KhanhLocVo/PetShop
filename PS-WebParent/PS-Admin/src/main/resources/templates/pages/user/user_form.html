@@ -24,7 +24,7 @@
                 <div class="card-body">
                   <h4 class="card-title">Create New User</h4>
                   
-                  <form th:action="@{/users/save}" method="post" th:object="${user}" class="forms-sample">
+                  <form th:action="@{/users/save}" method="post" th:object="${user}" class="forms-sample" onsubmit="return checkEmailUnique(this)">
                     
                     <div class="form-group">
                       <label for="exampleInputEmail3">Email address</label>
@@ -71,6 +71,27 @@
                     <input type="button" value="Cancel" id="buttonCancel" class="btn btn-light" />
                     
                   </form>
+                  <div th:replace="~{modal_fragments :: modal_dialog}"></div>
+                  
+                  <div class="modal fade text-center" id="modalDialog">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title" id="modalTitle">Warning</h4>
+								<button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+							</div>
+							
+							<div class="modal-body">
+								<span id="modalBody"></span>
+							</div>
+							
+							<div class="modal-footer">
+								<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+                  
                 </div>
               	</div>
             </div>
@@ -89,6 +110,36 @@
 			window.location = "[[@{/users}]]";
 		});
 	});
+	
+	function checkEmailUnique(form){
+		url = "[[@{/users/check_email}]]";
+		userEmail = $("#email").val();
+		csrfValue = $("input[name='_csrf']").val();
+		params = {email: userEmail, csrf: csrfValue};
+		
+		/* $("#modalDialog").modal();
+		
+		if(true) return false; */
+		
+		$.post(url, params, function(response){
+			if (response == "OK"){
+				form.submit();
+			} else if (response == "Duplicated"){
+				/* showModalDialog("Warning", "There is another user having the email" + userEmail) */
+				alert("There is another user having the email" + userEmail);
+			}
+			
+		});
+		
+		/* function showModalDialog(title, message){
+			$("#modalTitle").text(title);
+			$("#modalBody").text(message);
+			$("#modalDialog").modal();
+		} */
+		
+		
+		return false;
+	}
 </script>
 <script th:src="@{/vendors/js/vendor.bundle.base.js}"></script>
 <!-- endinject -->

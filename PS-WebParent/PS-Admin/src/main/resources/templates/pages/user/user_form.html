@@ -22,17 +22,22 @@
 				<div class="col-12 grid-margin stretch-card">
               	<div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Create New User</h4>
+                  <h4 class="card-title">[[${pageTitle}]]</h4>
                   
                   <form th:action="@{/users/save}" method="post" th:object="${user}" class="forms-sample" onsubmit="return checkEmailUnique(this)">
-                    
+                  <input type="hidden" th:field="*{id}">
+                                
                     <div class="form-group">
                       <label for="exampleInputEmail3">Email address</label>
                       <input type="email" class="form-control" th:field="*{email}" placeholder="Email" required>
                     </div>
                     <div class="form-group">
                       <label for="exampleInputPassword4">Password</label>
-                      <input type="password" class="form-control" th:field="*{password}" placeholder="Password" required>
+                      <div>
+                      	<input th:if="${user.id == null}" type="password" class="form-control" th:field="*{password}" placeholder="Password" required minlength="5" maxlength="20">
+                      	<input th:if="${user.id != null}" type="password" class="form-control" th:field="*{password}" placeholder="Password" minlength="5" maxlength="20">
+                      </div>
+                      
                     </div>
                     <div class="form-group">
                       <label for="exampleInputName1">First Name</label>
@@ -67,13 +72,12 @@
                         Enabled
                       </label>
                     </div>
-                    <input type=submit value="Save" class="btn btn-primary me-2" />
+                    <input type="submit" value="Save" class="btn btn-primary me-2" />
                     <input type="button" value="Cancel" id="buttonCancel" class="btn btn-light" />
                     
                   </form>
-                  <div th:replace="~{modal_fragments :: modal_dialog}"></div>
                   
-                  <div class="modal fade text-center" id="modalDialog">
+                  	<div class="modal fade text-center" id="modalDialog">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -90,7 +94,9 @@
 							</div>
 						</div>
 					</div>
-				</div>
+					</div>
+	
+                 
                   
                 </div>
               	</div>
@@ -114,32 +120,34 @@
 	function checkEmailUnique(form){
 		url = "[[@{/users/check_email}]]";
 		userEmail = $("#email").val();
+		userId = $("#id").val();
 		csrfValue = $("input[name='_csrf']").val();
-		params = {email: userEmail, csrf: csrfValue};
+		params = {id: userId, email: userEmail, csrf: csrfValue};
 		
 		/* $("#modalDialog").modal();
-		
 		if(true) return false; */
 		
 		$.post(url, params, function(response){
 			if (response == "OK"){
 				form.submit();
 			} else if (response == "Duplicated"){
-				/* showModalDialog("Warning", "There is another user having the email" + userEmail) */
+				/* showModalDialog("Warning", "There is another user having the email" + userEmail); */
 				alert("There is another user having the email" + userEmail);
+			}  else {
+				alert("Error", "Unknown response from server");
 			}
 			
+		}).fail(function() {
+			alert("Error","Counld not connect to the server");
 		});
-		
-		/* function showModalDialog(title, message){
-			$("#modalTitle").text(title);
-			$("#modalBody").text(message);
-			$("#modalDialog").modal();
-		} */
-		
-		
 		return false;
 	}
+	
+	/* function showModalDialog(title, message){
+		$("#modalTitle").text(title);
+		$("#modalBody").text(message);
+		$("#modalDialog").modal();
+	} */
 </script>
 <script th:src="@{/vendors/js/vendor.bundle.base.js}"></script>
 <!-- endinject -->

@@ -51,10 +51,33 @@
 			                          	<td>[[${user.firstName}]]</td>
 			                          	<td>[[${user.lastName}]]</td>
 										<td>[[${user.roles}]]</td>
-										<td>[[${user.enabled}]]</td>
 										<td>
-											<a>Edit</a> | 
-											<a>Delete</a>
+											<a 
+												th:if="${user.enabled == true}" 
+												class="mdi mdi-check-circle" 	
+												th:href="@{'/users/' + ${user.id} + '/enabled/false'}"
+												title="Disable this user"
+											>
+											</a>
+											<a 
+												th:if="${user.enabled == false}"
+												class="mdi mdi-check-circle-outline" 	 
+												th:href="@{'/users/' + ${user.id} + '/enabled/true'}"
+												title="Enabled this user"
+											>
+											</a>
+										</td>
+										<td>
+											<a class="mdi mdi-tooltip-edit" th:href="@{'/users/edit/' + ${user.id}}" title="Edit this user"></a>
+											&nbsp;
+											<a 
+												class="mdi mdi-delete link-delete" 
+												th:href="@{'/users/delete/' + ${user.id}}" 
+												title="Delete this user"
+												th:data-confirm-delete="|Are you sure you want to delete this userId ${user.id}?|"
+  												onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false"
+											>
+											</a>
 										</td>
 			                        </tr> 
 			                      </tbody>
@@ -70,5 +93,6 @@
 	    	</div>
 	    </div>
 	</div>
+
 </body>
 </html>

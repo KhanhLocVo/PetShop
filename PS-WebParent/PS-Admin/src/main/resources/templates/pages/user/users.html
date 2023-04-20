@@ -45,7 +45,8 @@
 			                      	<tr th:each="user : ${listUsers}">
 			                      		<td>[[${user.id}]]</td>
 			                      		<td class="py-1">
-			                            	<img th:src="@{/images/faces/face1.jpg}" alt="image"/>
+			                      			<span th:if="${user.photos == null}" class="mdi mdi-account-circle"></span>
+			                            	<img th:if="${user.photos != null}" th:src="@{${user.photosImagePath}}" />
 			                          	</td>
 			                          	<td>[[${user.email}]]</td>
 			                          	<td>[[${user.firstName}]]</td>

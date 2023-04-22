@@ -25,35 +25,50 @@
   <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" ></script>
 </head>
 <body>
-<div th:fragment="pagination" th:remove="tag">
-	<div class="text-center m-1" th:if="${totalItems > 0}">
-		<span>Showing users # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
+	<!-- <div th:fragmet="sortItem(fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
+		<a th:if="${sortField != ${fileName}}"
+			th:href="@{'/users/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${sortDir}}"
+			class="text-black"
+		>First name</a>
+		<a th:if="${sortField == ${fileName}}"
+			th:href="@{'/users/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${reverseSortDir}}"
+			class="text-black"
+		>First name</a>
+		<span
+			th:if="${sortField == ${fileName}}"
+			th:class="${sortDir == 'asc' ? 'mdi mdi-arrow-down-bold-circle' : 'mdi mdi-arrow-up-drop-circle'}"
+		>
+		</span>	
+	</div> -->
+	<div th:fragment="pagination" th:remove="tag">
+		<div class="text-center m-1" th:if="${totalItems > 0}">
+			<span>Showing users # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
+		</div>
+		<div class="text-center m-1" th:unless="${totalItems > 0}">
+			<span>No users found</span>
+		</div>
+		<div>
+	       	<nav>
+	       		<ul class="pagination justify-content-center">
+	       			<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+	       				<a class="page-link" th:href="@{'/users/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
+	       			</li>
+	       			<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}"> 
+	       				<a class="page-link" th:href="@{'/users/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
+	       			</li>
+	       			<li th:class="${currentPage != i ? 'page-item' : 'page-item active'}" th:each="i : ${#numbers.sequence(1, totalPages)}">
+	       				<a class="page-link" th:href="@{'/users/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+	       			</li>
+	       			<li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+	       				<a class="page-link" th:href="@{'/users/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+	       			</li>
+	       			<li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+	       				<a class="page-link" th:href="@{'/users/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+	       			</li>
+	       		</ul>
+	       	</nav>
+		</div>
 	</div>
-	<div class="text-center m-1" th:unless="${totalItems > 0}">
-		<span>No users found</span>
-	</div>
-	<div>
-       	<nav>
-       		<ul class="pagination justify-content-center">
-       			<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-       				<a class="page-link" th:href="@{/users/page/1}">First</a>
-       			</li>
-       			<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}"> 
-       				<a class="page-link" th:href="@{'/users/page/' + ${currentPage - 1}}">Previous</a>
-       			</li>
-       			<li th:class="${currentPage != i ? 'page-item' : 'page-item active'}" th:each="i : ${#numbers.sequence(1, totalPages)}">
-       				<a class="page-link" th:href="@{'/users/page/' + ${i}}">[[${i}]]</a>
-       			</li>
-       			<li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-       				<a class="page-link" th:href="@{'/users/page/' + ${currentPage + 1}}">Next</a>
-       			</li>
-       			<li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-       				<a class="page-link" th:href="@{'/users/page/' + ${totalPages}}">Last</a>
-       			</li>
-       		</ul>
-       	</nav>
-	</div>
-</div>
 
 
 </body>

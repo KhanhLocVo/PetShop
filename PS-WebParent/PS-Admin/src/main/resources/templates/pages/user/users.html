@@ -34,11 +34,55 @@
 			                      		<th>UserId</th>
 										<th>Photo</th>
 										<th>Email</th>
-										<th>First name</th>
-										<th>Last name</th>
+										
+										<th>	
+											<a th:if="${sortField != 'firstName'}"
+												th:href="@{'/users/page/' + ${currentPage} + '?sortField=firstName&sortDir=' + ${sortDir}}"
+												class="text-black"
+											>First name</a>
+											<a th:if="${sortField == 'firstName'}"
+												th:href="@{'/users/page/' + ${currentPage} + '?sortField=firstName&sortDir=' + ${reverseSortDir}}"
+												class="text-black"
+											>First name</a>
+											<span
+												th:if="${sortField == 'firstName'}"
+												th:class="${sortDir == 'asc' ? 'mdi mdi-arrow-down-bold-circle' : 'mdi mdi-arrow-up-drop-circle'}"
+											>
+											</span>
+										</th>
+										
+										<th>
+											<a th:if="${sortField != 'lastName'}"
+												th:href="@{'/users/page/' + ${currentPage} + '?sortField=lastName&sortDir=' + ${sortDir}}"
+												class="text-black"
+											>Last name</a>
+											<a th:if="${sortField == 'lastName'}"
+												th:href="@{'/users/page/' + ${currentPage} + '?sortField=lastName&sortDir=' + ${reverseSortDir}}"
+												class="text-black"
+											>Last name</a>
+											<span
+												th:if="${sortField == 'lastName'}"
+												th:class="${sortDir == 'asc' ? 'mdi mdi-arrow-down-bold-circle' : 'mdi mdi-arrow-up-drop-circle'}"
+											>
+											</span>
+										</th>
 										<th>Role</th>
-										<th>Enabled</th>
-										<th>Action</th>		                      
+										<th>
+											<a th:if="${sortField != 'enabled'}"
+												th:href="@{'/users/page/' + ${currentPage} + '?sortField=enabled&sortDir=' + ${sortDir}}"
+												class="text-black"
+											>Enabled</a>
+											<a th:if="${sortField == 'enabled'}"
+												th:href="@{'/users/page/' + ${currentPage} + '?sortField=enabled&sortDir=' + ${reverseSortDir}}"
+												class="text-black"
+											>Enabled</a>
+											<span
+												th:if="${sortField == 'enabled'}"
+												th:class="${sortDir == 'asc' ? 'mdi mdi-arrow-down-bold-circle' : 'mdi mdi-arrow-up-drop-circle'}"
+											>
+											</span>
+										</th>
+										<th>Action</th>		          	            
 			                        </tr>
 			                      </thead>
 			                      <tbody>

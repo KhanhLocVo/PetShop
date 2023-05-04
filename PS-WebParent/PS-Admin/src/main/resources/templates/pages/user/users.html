@@ -24,6 +24,19 @@
 			                <div class="card-body">
 			                  <h4 class="card-title text-center">Manage User</h4>
 			                  <a th:href="@{/users/new}" class="card-description">Create New User</a>
+			                  
+			                  <div>
+			                 	<form th:action="@{/users/page/1}" class="input-group m-2 p-auto">		                 	
+								 
+								 	<input type="hidden" name="sortField" th:value="${sortField}" />
+								 	<input type="hidden" name="sortDir" th:value="${sortDir}" />
+								  	<input type="search" name="keyword" th:value="${keyword}" class="form-control" /> &nbsp;
+								    <input type="submit" class="btn btn-primary" value="Search"> &nbsp;
+								    <input type="button" class="btn btn-secondary" value="Clear" onclick="clearFilter()">
+								  
+								</form>
+							  </div>
+							  
 			                  <div th:if="${message != null}" class="alert alert-success text-center">
 			                  	[[${message}]]
 			                  </div>
@@ -126,21 +139,23 @@
 										</td>
 			                        </tr> 
 			                      </tbody>
-			                    </table>
+			                    </table>   
 			                  </div>
+			                  <div th:replace="~{fragments :: pagination}"></div>
 			                </div>
 			              </div>
 			            </div>
 					</div>
 				</div>
 				
-				<div th:replace="~{fragments :: pagination}"></div>
+				
 				
 				
 				<footer class="footer" th:replace="~{footer :: footer}"></footer>
 	    	</div>
 	    </div>
 	</div>
+	
 
 </body>
 </html>

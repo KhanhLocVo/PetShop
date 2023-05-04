@@ -30,7 +30,7 @@ public class UserController {
 	
 	@GetMapping("/users")
 	public String listFirstPage(Model model) {
-		return listByPage(1, model, "firstName", "asc");
+		return listByPage(1, model, "firstName", "asc", null);
 //		return defaultRedirectURL;
 	}
 	
@@ -39,9 +39,10 @@ public class UserController {
 			@PathVariable(name = "pageNum") int pageNum,
 			Model model,
 			@Param("sortField") String sortField,
-			@Param("sortDir") String sortDir
+			@Param("sortDir") String sortDir,
+			@Param("keyword") String keyword
 			) {
-		Page<User> page = userService.listByPage(pageNum, sortField, sortDir);
+		Page<User> page = userService.listByPage(pageNum, sortField, sortDir, keyword);
 		List<User> listUsers = page.getContent();
 		
 		long startCount = (pageNum - 1) * UserService.USERS_PER_PAGE + 1;
@@ -52,16 +53,18 @@ public class UserController {
 		
 		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
 		
-		model.addAttribute("totalItems", page.getTotalElements());
+		
 		model.addAttribute("startCount", startCount);
 		model.addAttribute("endCount", endCount);
 		model.addAttribute("listUsers", listUsers);
 		model.addAttribute("currentPage", pageNum);
+		model.addAttribute("totalItems", page.getTotalElements());
 		model.addAttribute("totalPages", page.getTotalPages());
 		
 		model.addAttribute("sortField", sortField);
 		model.addAttribute("sortDir", sortDir);
 		model.addAttribute("reverseSortDir", reverseSortDir);
+		model.addAttribute("keyword", keyword);
 		
 		
 		return "pages/user/users";

@@ -8,6 +8,6 @@ public class IconController {
 	
 	@GetMapping("/icons")
 	public String viewIcon() {
-		return "icons/mdi";
+		return "pages/icons/mdi";
 	}
 }

@@ -47,7 +47,7 @@
 		<div class="text-center m-1" th:unless="${totalItems > 0}">
 			<span>No users found</span>
 		</div>
-		<div>
+		<div th:if="${totalPages > 1}">
 	       	<nav>
 	       		<ul class="pagination justify-content-center">
 	       			<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
